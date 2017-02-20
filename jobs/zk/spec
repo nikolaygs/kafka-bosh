@@ -1,0 +1,10 @@
+---
+name: zk
+packages: 
+  - kafka-bin
+templates:
+  zookeeper_ctl.erb: bin/ctl
+properties:
+  port: 
+    descrption: "ZK Port"
+    default: 7777

@@ -1,0 +1,22 @@
+---
+name: kafka
+
+templates:
+  kafka_ctl.erb:      bin/ctl
+
+packages:
+  - kafka-bin
+
+properties: 
+  zkPort:
+    descrption: "ZK Port"
+    default: 7777
+  zkHost:
+    descrption: "ZK Host"
+    default: localhost
+  advertisedHost:    
+    descrption: "Advertised host name"
+    default: localhost
+  advertisedPort:
+    descrption: "Advertised port name"
+    default: localhost

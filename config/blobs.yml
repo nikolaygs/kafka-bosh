@@ -1,0 +1,9 @@
+---
+kafka-bin/jre1.8.0_121.tgz:
+  object_id: 27f13c90-e417-48ee-afa8-27692f8e95e0
+  sha: f62168513348184e3d18c69795ecb220456514a3
+  size: 73676107
+kafka-bin/kafka_2.10-0.10.1.1.tgz:
+  object_id: cd3fd999-b735-4623-bef3-952e461b34bb
+  sha: c3b4b0e50163c9abeddbb93d0353b149caaba09a
+  size: 35197662

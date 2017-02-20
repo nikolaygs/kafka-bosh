@@ -1,0 +1,71 @@
+---
+name: kafka-aws
+director_uuid: 63ddb6a6-d6fe-40e1-b16b-2ff6b2034c79
+
+releases:
+- name: kafka-aws
+  version: latest
+
+networks:
+- name: kafka_cluster
+  type: manual
+  subnets:
+  - range: 10.0.0.0/24
+    reserved: [10.0.0.1 - 10.0.0.8]
+    static: [10.0.0.9 - 10.0.0.24]
+    gateway: 10.0.0.1
+    cloud_properties:
+      subnet: subnet-8204d0cb
+      security_groups: [bosh]
+  cloud_properties: {subnet: subnet-8204d0cb, availability_zone: us-west-2a, instance_type: t2.medium}
+
+resource_pools:
+- name: zk
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+  network: kafka_cluster
+  cloud_properties: { availability_zone: us-west-2a, instance_type: t2.micro}
+- name: kafka
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+  network: kafka_cluster
+  cloud_properties: { availability_zone: us-west-2a, instance_type: t2.medium}
+
+compilation:
+  workers: 2
+  network: kafka_cluster
+  cloud_properties: { availability_zone: us-west-2a, instance_type: t2.micro}
+
+update:
+  canaries: 1
+  canary_watch_time: 60000
+  update_watch_time: 60000
+  max_in_flight: 2
+
+jobs:
+- name: zk
+  templates:
+  - name: zk
+  instances: 1
+  resource_pool: zk
+  networks:
+  - name: kafka_cluster
+    static_ips: [10.0.0.21]
+  properties: {
+    port: 2181
+  }
+
+- name: kafka
+  templates:
+  - name: kafka
+  instances: 3
+  resource_pool: kafka
+  networks:
+  - name:  kafka_cluster
+    static_ips: [10.0.0.10, 10.0.0.11, 10.0.0.12]
+  properties:
+   zkPort: 2181,
+   zkHost: 10.0.0.21,
+   advertisedPort: 9092

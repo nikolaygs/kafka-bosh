@@ -1,0 +1,5 @@
+check process zk
+  with pidfile "/var/vcap/sys/run/zk/zk.pid"
+  start program "/var/vcap/jobs/zk/bin/ctl start"
+  stop program "/var/vcap/jobs/zk/bin/ctl stop"
+  group vcap

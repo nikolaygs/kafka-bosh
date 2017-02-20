@@ -1,0 +1,27 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/kafka
+LOG_DIR=/var/vcap/sys/log/kafka
+PIDFILE=$RUN_DIR/kafka.pid
+
+case $1 in
+
+  start)
+    export PATH=/var/vcap/packages/kafka-bin/jre1.8.0_121/bin:$PATH
+        mkdir -p $RUN_DIR $LOG_DIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR
+        echo $$ > $PIDFILE
+    exec /var/vcap/packages/kafka-bin/kafka_2.10-0.10.1.1/bin/kafka-server-start.sh /var/vcap/packages/kafka-bin/kafka_2.10-0.10.1.1/config/server.properties --override broker.id=<%= spec.index %> --override zookeeper.connect=<%= p("zkHost") %>:<%= p("zkPort") %> --override advertised.listeners=PLAINTEXT://<%= spec.networks.kafka_cluster.ip%>:<%= p("advertisedPort") %>
+;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    exec /var/vcap/packages/kafka-bin/kafka_2.10-0.10.1.1/bin/kafka-server-stop.sh
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+  echo "Usage: kafka {start|stop}" ;;
+esac
+exit 0

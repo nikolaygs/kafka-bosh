@@ -1,0 +1,6 @@
+---
+name: kafka-bin
+
+files:
+ - kafka-bin/kafka_2.10-0.10.1.1.tgz
+ - kafka-bin/jre1.8.0_121.tgz

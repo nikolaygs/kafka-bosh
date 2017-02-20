@@ -1,0 +1,11 @@
+bort script on any command that exits with a non zero value
+set -e
+echo "********************************** Install JVM **********************************"
+sudo tar xzf kafka-bin/jre1.8.0_121.tgz
+sudo cp -a jre1.8.0_121 ${BOSH_INSTALL_TARGET}
+echo "********************************** Add JRE to PATH **********************************"
+export PATH=$PATH:${BOSH_INSTALL_TARGET}/jre1.8.0_121/bin
+echo "********************************** Extracting kafka **********************************"
+sudo tar xzf kafka-bin/kafka_2.10-0.10.1.1.tgz
+echo $(ls -lrt)
+sudo cp -a kafka_2.10-0.10.1.1 ${BOSH_INSTALL_TARGET}
