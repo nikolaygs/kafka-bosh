@@ -22,13 +22,13 @@ networks:
 resource_pools:
 - name: zk
   stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
     version: latest
   network: kafka_cluster
   cloud_properties: { availability_zone: us-west-2a, instance_type: t2.micro}
 - name: kafka
   stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
     version: latest
   network: kafka_cluster
   cloud_properties: { availability_zone: us-west-2a, instance_type: t2.medium}
